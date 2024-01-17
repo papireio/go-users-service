@@ -1,0 +1,9 @@
+*sublime*
+.DS_Store
+.idea
+.vs_code
+
+/target
+/vendor
+/tmp
+/_
