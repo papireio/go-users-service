@@ -5,4 +5,4 @@ COPY . .
 RUN make vendor && make
 WORKDIR ./target/
 
-CMD ["./goservice"]
+CMD ["./go-users"]

@@ -16,7 +16,7 @@ func (e *grpcError) Error() string {
 	return fmt.Sprintf("%d - %s", e.Message, e.Service)
 }
 
-func Connect(addr string) (proto.GoServiceClient, error) {
+func Connect(addr string) (proto.GoUsersClient, error) {
 	conn, err := grpc.Dial(
 		addr,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
@@ -28,5 +28,5 @@ func Connect(addr string) (proto.GoServiceClient, error) {
 		}
 	}
 
-	return proto.NewGoServiceClient(conn), nil
+	return proto.NewGoUsersClient(conn), nil
 }

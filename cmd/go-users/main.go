@@ -16,8 +16,7 @@ func main() {
 	if err := envconfig.Process(ctx, config); err != nil {
 		log.Fatalln("Fatal Error: Parsing OS ENV")
 	}
-
-	if err := server.Serve(config.Port); err != nil {
+	if err := server.Serve(config); err != nil {
 		log.Fatalln("Fatal Error: Start Up gRPC server")
 	}
 }

@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+package go.users;
+option go_package = "github.com/papireio/go-users-service/pkg/service";
+
+service GoUsers {
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+    rpc CreateSession(CreateSessionRequest) returns (CreateSessionResponse) {}
+    rpc DeleteSession(DeleteSessionRequest) returns (DeleteSessionResponse) {}
+    rpc FlushSessions(FlushSessionsRequest) returns (FlushSessionsResponse) {}
+    rpc ValidateEmail(ValidateEmailRequest) returns (ValidateEmailResponse) {}
+    rpc CheckEmail(CheckEmailRequest) returns (CheckEmailResponse) {}
+}
+
+message CreateUserRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message CreateUserResponse {
+    string name = 1;
+    string email = 2;
+    string uuid = 3;
+    string session_token = 4;
+    bool verified = 5;
+    bool success = 6;
+}
+
+message GetUserRequest {
+    string uuid = 1;
+}
+
+message GetUserResponse {
+    string name = 1;
+    string email = 2;
+    string uuid = 3;
+    bool verified = 4;
+}
+
+message UpdateUserRequest {
+    string uuid = 1;
+    string name = 2;
+}
+
+message UpdateUserResponse {
+    string name = 1;
+    string email = 2;
+    string uuid = 3;
+    bool verified = 4;
+    bool success = 5;
+}
+
+message CreateSessionRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message CreateSessionResponse {
+    string session_token = 1;
+    bool success = 2;
+}
+
+message DeleteSessionRequest {
+    string uuid = 1;
+    string session_token = 2;
+}
+
+message DeleteSessionResponse {
+    bool success = 1;
+}
+
+message FlushSessionsRequest {
+    string uuid = 1;
+    string session_token = 2;
+}
+
+message FlushSessionsResponse {
+    bool success = 1;
+}
+
+message ValidateEmailRequest {
+    string uuid = 1;
+    string validation_token = 2;
+}
+
+message ValidateEmailResponse {
+    bool success = 1;
+}
+
+message CheckEmailRequest {
+    string email = 1;
+}
+
+message CheckEmailResponse {
+    bool available = 1;
+}
