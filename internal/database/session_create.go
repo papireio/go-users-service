@@ -3,11 +3,11 @@ package database
 import (
 	"context"
 	"errors"
+	"go-users/internal/utils"
+	proto "go-users/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"goservice/internal/utils"
-	proto "goservice/pkg/api/grpc"
 	"time"
 )
 

@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"github.com/sethvargo/go-envconfig"
-	"goservice/internal/env"
-	"goservice/internal/server"
+	"go-users/internal/env"
+	"go-users/internal/server"
 	"log"
 )
 

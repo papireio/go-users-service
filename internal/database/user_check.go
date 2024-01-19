@@ -2,9 +2,9 @@ package database
 
 import (
 	"context"
+	proto "go-users/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	proto "goservice/pkg/api/grpc"
 	"time"
 )
 

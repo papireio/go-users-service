@@ -3,10 +3,10 @@ package database
 import (
 	"context"
 	"github.com/google/uuid"
+	"go-users/internal/utils"
+	proto "go-users/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"goservice/internal/utils"
-	proto "goservice/pkg/api/grpc"
 	"time"
 )
 

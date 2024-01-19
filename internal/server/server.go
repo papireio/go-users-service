@@ -3,12 +3,12 @@ package server
 import (
 	"context"
 	"fmt"
+	"go-users/internal/database"
+	"go-users/internal/env"
+	proto "go-users/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
-	"goservice/internal/database"
-	"goservice/internal/env"
-	proto "goservice/pkg/api/grpc"
 	"net"
 	"time"
 )
