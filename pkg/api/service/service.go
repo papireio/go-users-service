@@ -2,9 +2,9 @@ package service
 
 import (
 	"fmt"
+	proto "github.com/papireio/go-users-service/pkg/api/grpc"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	proto "goservice/pkg/api/grpc"
 )
 
 type grpcError struct {
