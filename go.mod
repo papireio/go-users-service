@@ -1,4 +1,4 @@
-module go-users
+module github.com/papireio/go-users-service
 
 go 1.21
 
