@@ -8,17 +8,6 @@ MAIN_PKG := ./cmd/$(NAME)
 
 default: build
 
-.PHONY: generate
-generate:
-	 protoc --go_out=./pkg --go_opt=paths=source_relative \
-        --go-grpc_out=./pkg --go-grpc_opt=paths=source_relative \
-        api/grpc/$(NAME).proto
-
-.PHONY: vendor
-vendor:
-	$(V)go mod tidy
-	$(V)go mod vendor
-
 .PHONY: build
 build:
 	@echo BUILDING $(MAIN_OUT)
@@ -28,3 +17,15 @@ build:
 .PHONY: run
 run:
 	go run ./cmd/$(NAME)/main.go
+
+.PHONY: vendor
+vendor:
+	$(V)go mod tidy -go=1.21 && go mod tidy -go=1.21
+	$(V)go mod tidy
+	$(V)go mod vendor
+
+.PHONY: proto
+proto:
+	 protoc --go_out=./pkg --go_opt=paths=source_relative \
+        --go-grpc_out=./pkg --go-grpc_opt=paths=source_relative \
+        api/grpc/$(NAME).proto
