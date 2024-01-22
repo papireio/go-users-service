@@ -59,7 +59,8 @@ message CreateSessionRequest {
 
 message CreateSessionResponse {
     string session_token = 1;
-    bool success = 2;
+    string uuid = 2;
+    bool success = 3;
 }
 
 message DeleteSessionRequest {

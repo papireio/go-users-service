@@ -3,7 +3,7 @@ package database
 import (
 	"context"
 	"errors"
-	proto "go-users/pkg/api/grpc"
+	proto "github.com/papireio/go-users-service/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

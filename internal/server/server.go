@@ -3,9 +3,9 @@ package server
 import (
 	"context"
 	"fmt"
-	"go-users/internal/database"
-	"go-users/internal/env"
-	proto "go-users/pkg/api/grpc"
+	"github.com/papireio/go-users-service/internal/database"
+	"github.com/papireio/go-users-service/internal/env"
+	proto "github.com/papireio/go-users-service/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"google.golang.org/grpc"
@@ -100,7 +100,7 @@ func (i *instance) UpdateUser(_ context.Context, req *proto.UpdateUserRequest) (
 }
 
 func (i *instance) CreateSession(_ context.Context, req *proto.CreateSessionRequest) (*proto.CreateSessionResponse, error) {
-	token, err := database.CreateSession(i.clients.Mongo, req)
+	user, token, err := database.CreateSession(i.clients.Mongo, req)
 	if err != nil {
 		return &proto.CreateSessionResponse{
 			Success: false,
@@ -109,6 +109,7 @@ func (i *instance) CreateSession(_ context.Context, req *proto.CreateSessionRequ
 
 	return &proto.CreateSessionResponse{
 		SessionToken: token,
+		Uuid:         user.Uuid,
 		Success:      true,
 	}, nil
 }

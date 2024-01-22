@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
+	"github.com/papireio/go-users-service/internal/env"
+	"github.com/papireio/go-users-service/internal/server"
 	"github.com/sethvargo/go-envconfig"
-	"go-users/internal/env"
-	"go-users/internal/server"
 	"log"
 )
 

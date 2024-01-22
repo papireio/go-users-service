@@ -2,16 +2,21 @@ package database
 
 import (
 	"context"
-	"errors"
-	"go-users/internal/utils"
-	proto "go-users/pkg/api/grpc"
+	"github.com/papireio/go-users-service/internal/utils"
+	proto "github.com/papireio/go-users-service/pkg/api/grpc"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"time"
 )
 
-func CreateSession(client *mongo.Client, req *proto.CreateSessionRequest) (string, error) {
+func CreateSession(client *mongo.Client, req *proto.CreateSessionRequest) (*User, string, error) {
+	if req.Email == "" || req.Password == "" {
+		return nil, "", status.Error(codes.InvalidArgument, "Incorrect request argument")
+	}
+
 	u := &User{}
 	filter := bson.D{{"email", req.Email}}
 
@@ -21,16 +26,16 @@ func CreateSession(client *mongo.Client, req *proto.CreateSessionRequest) (strin
 
 	err := collection.FindOne(ctx, filter).Decode(&u)
 	if err != nil {
-		return "", err
+		return nil, "", status.Error(codes.NotFound, "User not found")
 	}
 
 	if isPasswordValid := utils.CompareHashPassword(req.Password, u.PasswordHash); !isPasswordValid {
-		return "", errors.New("invalid_password")
+		return nil, "", status.Error(codes.PermissionDenied, "Password mismatch")
 	}
 
 	sessionToken, err := utils.GetToken()
 	if err != nil {
-		return "", err
+		return nil, "", err
 	}
 
 	sessions := append(u.Sessions, Session{
@@ -54,5 +59,5 @@ func CreateSession(client *mongo.Client, req *proto.CreateSessionRequest) (strin
 
 	err = collection.FindOneAndUpdate(ctx, filter, payload, opt).Decode(&u)
 
-	return sessionToken, err
+	return u, sessionToken, err
 }
