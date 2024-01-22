@@ -52,7 +52,7 @@ func CreateUser(client *mongo.Client, req *proto.CreateUserRequest) (*User, stri
 		{"validation_token", validationToken},
 	})
 	if err != nil {
-		return nil, "", status.Error(codes.Internal, "Internal server error (insert mongo document)")
+		return nil, "", status.Error(codes.AlreadyExists, "Email is already exist in collection")
 	}
 
 	id := res.InsertedID
