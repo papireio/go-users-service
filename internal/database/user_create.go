@@ -23,17 +23,17 @@ func CreateUser(client *mongo.Client, req *proto.CreateUserRequest) (*User, stri
 
 	hash, err := utils.GenerateHashPassword(req.Password)
 	if err != nil {
-		return u, "", err
+		return u, "", status.Error(codes.Internal, "Internal server error (generate hash)")
 	}
 
 	sessionToken, err := utils.GetToken()
 	if err != nil {
-		return u, "", err
+		return u, "", status.Error(codes.Internal, "Internal server error (getting session token)")
 	}
 
 	validationToken, err := utils.GetToken()
 	if err != nil {
-		return u, "", err
+		return u, "", status.Error(codes.Internal, "Internal server error (getting validation token)")
 	}
 
 	sessions := []Session{
@@ -52,7 +52,7 @@ func CreateUser(client *mongo.Client, req *proto.CreateUserRequest) (*User, stri
 		{"validation_token", validationToken},
 	})
 	if err != nil {
-		return nil, "", err
+		return nil, "", status.Error(codes.Internal, "Internal server error (insert mongo document)")
 	}
 
 	id := res.InsertedID
@@ -61,8 +61,11 @@ func CreateUser(client *mongo.Client, req *proto.CreateUserRequest) (*User, stri
 	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err = collection.FindOne(ctx, filter).Decode(&u)
-	// TODO: Send validation email
+	if err := collection.FindOne(ctx, filter).Decode(&u); err != nil {
+		return nil, "", status.Error(codes.Internal, "Internal server error (getting recently created user)")
+	}
 
-	return u, sessionToken, err
+	// TODO: send validation email here
+
+	return u, sessionToken, nil
 }

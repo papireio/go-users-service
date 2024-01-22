@@ -57,7 +57,9 @@ func CreateSession(client *mongo.Client, req *proto.CreateSessionRequest) (*User
 	ctx, cancel = context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	err = collection.FindOneAndUpdate(ctx, filter, payload, opt).Decode(&u)
+	if err = collection.FindOneAndUpdate(ctx, filter, payload, opt).Decode(&u); err != nil {
+		return nil, "", status.Error(codes.Internal, "Internal server error (getting recently exist user)")
+	}
 
-	return u, sessionToken, err
+	return u, sessionToken, nil
 }

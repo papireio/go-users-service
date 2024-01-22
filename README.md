@@ -8,7 +8,7 @@ Go Users service
 - [protoc-gen-go](https://grpc.io/docs/languages/go/quickstart)
 
 ### Todo
-- [ ] standardize errors
+- [x] standardize errors
 - [ ] add logging and errors handling (Sentry, ELK, etc...)
 - [ ] add unit tests
 - [ ] add email service notification integration

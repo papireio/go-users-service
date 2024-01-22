@@ -151,9 +151,13 @@ func (i *instance) ValidateEmail(_ context.Context, req *proto.ValidateEmailRequ
 }
 
 func (i *instance) CheckEmail(_ context.Context, req *proto.CheckEmailRequest) (*proto.CheckEmailResponse, error) {
-	ok := database.CheckEmail(i.clients.Mongo, req)
+	if err := database.CheckEmail(i.clients.Mongo, req); err != nil {
+		return &proto.CheckEmailResponse{
+			Available: false,
+		}, err
+	}
 
 	return &proto.CheckEmailResponse{
-		Available: ok,
+		Available: true,
 	}, nil
 }
