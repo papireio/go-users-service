@@ -35,7 +35,7 @@ func CreateSession(client *mongo.Client, req *proto.CreateSessionRequest) (*User
 
 	sessionToken, err := utils.GetToken()
 	if err != nil {
-		return nil, "", err
+		return nil, "", status.Error(codes.Internal, "Internal server error (getting session token)")
 	}
 
 	sessions := append(u.Sessions, Session{
